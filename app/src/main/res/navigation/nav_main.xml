@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_main"
+    app:startDestination="@id/legoThemeFragment">
+
+    <fragment
+        android:id="@+id/legoThemeFragment"
+        android:name="com.serhankhan.legocatalog.legotheme.ui.LegoThemeFragment"
+        android:label="Lego Themes"
+        tools:layout="@layout/fragment_lego_theme" />
+</navigation>
