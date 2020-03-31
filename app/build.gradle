@@ -111,7 +111,6 @@ dependencies {
     testImplementation "junit:junit:$rootProject.junitVersion"
     testImplementation "com.squareup.okhttp3:mockwebserver:$rootProject.mockwebserverVersion"
     testImplementation "androidx.arch.core:core-testing:$rootProject.coreTestingVersion"
-    testImplementation "org.mockito:mockito-core:$rootProject.mockitoVersion"
 
     androidTestImplementation "androidx.test:core:$rootProject.testCoreVersion"
     androidTestImplementation "androidx.test:runner:$rootProject.testRunnerVersion"
@@ -129,8 +128,10 @@ dependencies {
     androidTestImplementation "androidx.work:work-testing:$rootProject.workVersion"
 
     androidTestImplementation "androidx.arch.core:core-testing:$rootProject.coreTestingVersion"
-    testImplementation "org.mockito:mockito-core:$rootProject.mockitoVersion"
-    androidTestImplementation "org.mockito:mockito-android:$rootProject.mockitoAndroidVersion"
+    androidTestImplementation "org.mockito:mockito-core:$rootProject.mockitoVersion"
+    testImplementation "org.mockito:mockito-android:$rootProject.mockitoAndroidVersion"
+    androidTestImplementation "org.mockito:mockito-inline:$rootProject.mockitoAndroidVersion"
+
 }
 task fullCoverageReport(type: JacocoReport) {
     dependsOn 'createDebugCoverageReport'
