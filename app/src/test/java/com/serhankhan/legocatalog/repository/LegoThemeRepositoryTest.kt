@@ -41,18 +41,14 @@ class LegoThemeRepositoryTest {
 
     @Test
     fun getThemesSuccess(){
-
         val observer = mock<Observer<Resource<ResultResponse<LegoTheme>>>>()
-
         val list:List<LegoTheme> = mutableListOf(LegoTheme(1,"Mario",3))
         val successResponse = ResultResponse(555,null,null,list)
         val call = successCall(successResponse)
-
         Mockito.`when`(service.getThemes()).thenReturn(call)
-
         repository.getThemes().observeForever(observer)
-
         verify(observer).onChanged(Resource.success(ResultResponse(555,null,null,list)))
-
     }
+
+
 }
