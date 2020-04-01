@@ -29,6 +29,20 @@ class LegoThemeViewModelTest {
     private val repository = mock(LegoThemeRepository::class.java)
     private var legoThemeViewModel = LegoThemeViewModel(repository)
 
+
+//    @Test
+//    fun testNull(){
+//        try {
+//            val observer = mock<Observer<Resource<ResultResponse<LegoTheme>>>>()
+//            legoThemeViewModel.themes.observeForever(observer)
+//            verify(repository).getThemes()
+//        }catch (ex:Exception){
+//            Timber.d(ex.localizedMessage)
+//        }
+//
+//    }
+
+
     @Test
     fun testFetchFromNetworkCalled(){
         legoThemeViewModel.themes
