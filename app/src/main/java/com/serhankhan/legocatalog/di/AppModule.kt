@@ -1,6 +1,7 @@
 package com.serhankhan.legocatalog.di
 
 import com.serhankhan.legocatalog.BuildConfig
+import com.serhankhan.legocatalog.ContextProviders
 import com.serhankhan.legocatalog.api.AuthInterceptor
 import com.serhankhan.legocatalog.api.LegoService
 import com.serhankhan.legocatalog.ui.util.LiveDataCallAdapterFactory
@@ -31,6 +32,9 @@ class AppModule {
         return upstreamClient.newBuilder()
             .addInterceptor(AuthInterceptor(BuildConfig.API_DEVELOPER_TOKEN)).build()
     }
+
+    @Provides
+    fun provideContextProvider() = ContextProviders()
 
     private fun createRetrofit(
         okhttpClient: OkHttpClient,

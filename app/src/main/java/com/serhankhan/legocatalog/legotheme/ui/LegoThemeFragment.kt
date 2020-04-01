@@ -53,7 +53,6 @@ class LegoThemeFragment : Fragment(),Injectable {
         viewModel.themes.observe(viewLifecycleOwner, Observer {response->
 
             when(response.status) {
-
                 Status.LOADING -> {
                     Log.d(TAG,"Loading")
                 }
