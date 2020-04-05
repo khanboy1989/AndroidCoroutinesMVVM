@@ -50,5 +50,10 @@ class LegoThemeRepositoryTest {
         verify(observer).onChanged(Resource.success(ResultResponse(555,null,null,list)))
     }
 
+    @Test
+    fun getThemesFromRemote(){
+
+    }
+
 
 }

@@ -16,8 +16,6 @@ import javax.inject.Singleton
 @OpenForTesting
 class LegoThemeRepository @Inject constructor(private val contextProviders: ContextProviders,private val appExecutors: AppExecutors, private val service:LegoService) {
 
-
-
     fun getThemes():LiveData<Resource<ResultResponse<LegoTheme>>> {
         return object :NetworkResourceBound<ResultResponse<LegoTheme>, ResultResponse<LegoTheme>>(contextProviders){
 
