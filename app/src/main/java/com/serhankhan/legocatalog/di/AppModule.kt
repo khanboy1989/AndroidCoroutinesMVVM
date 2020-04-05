@@ -4,7 +4,7 @@ import com.serhankhan.legocatalog.BuildConfig
 import com.serhankhan.legocatalog.ContextProviders
 import com.serhankhan.legocatalog.api.AuthInterceptor
 import com.serhankhan.legocatalog.api.LegoService
-import com.serhankhan.legocatalog.ui.util.LiveDataCallAdapterFactory
+import com.serhankhan.legocatalog.util.LiveDataCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient

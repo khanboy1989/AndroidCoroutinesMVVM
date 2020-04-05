@@ -3,7 +3,7 @@ package com.serhankhan.legocatalog.di
 import com.facebook.stetho.okhttp3.BuildConfig
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.gson.Gson
-import com.serhankhan.legocatalog.ui.util.LiveDataCallAdapterFactory
+import com.serhankhan.legocatalog.util.LiveDataCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient

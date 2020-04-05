@@ -1,4 +1,4 @@
-package com.serhankhan.legocatalog.ui.util
+package com.serhankhan.legocatalog.util
 
 import androidx.lifecycle.LiveData
 import com.serhankhan.legocatalog.api.ApiResponse

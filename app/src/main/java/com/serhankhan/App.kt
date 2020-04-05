@@ -5,7 +5,7 @@ import android.app.Application
 import com.facebook.stetho.Stetho
 import com.serhankhan.legocatalog.BuildConfig
 import com.serhankhan.legocatalog.di.AppInjector
-import com.serhankhan.legocatalog.ui.util.CrashReportingTree
+import com.serhankhan.legocatalog.util.CrashReportingTree
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import timber.log.Timber

@@ -1,7 +1,7 @@
 package com.serhankhan.legocatalog.api
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.serhankhan.legocatalog.ui.util.LiveDataCallAdapterFactory
+import com.serhankhan.legocatalog.util.LiveDataCallAdapterFactory
 import com.serhankhan.legocatalog.util.getOrAwaitValue
 import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockResponse
