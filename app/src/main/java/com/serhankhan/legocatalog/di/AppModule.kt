@@ -1,9 +1,11 @@
 package com.serhankhan.legocatalog.di
 
+import android.app.Application
 import com.serhankhan.legocatalog.BuildConfig
 import com.serhankhan.legocatalog.ContextProviders
 import com.serhankhan.legocatalog.api.AuthInterceptor
 import com.serhankhan.legocatalog.api.LegoService
+import com.serhankhan.legocatalog.data.AppDatabase
 import com.serhankhan.legocatalog.util.LiveDataCallAdapterFactory
 import dagger.Module
 import dagger.Provides
@@ -27,19 +29,26 @@ class AppModule {
     @LegoAPI
     @Provides
     fun providePrivateOkHttpClient(
-        upstreamClient: OkHttpClient
-    ): OkHttpClient {
+        upstreamClient: OkHttpClient): OkHttpClient {
         return upstreamClient.newBuilder()
             .addInterceptor(AuthInterceptor(BuildConfig.API_DEVELOPER_TOKEN)).build()
     }
+
+    @Singleton
+    @Provides
+    fun provideDb(app:Application) = AppDatabase.getDatabase(app)
+
+    @Singleton
+    @Provides
+    fun provideLegoThemeDao(db:AppDatabase) = db.legoThemeDao()
+
 
     @Provides
     fun provideContextProvider() = ContextProviders()
 
     private fun createRetrofit(
         okhttpClient: OkHttpClient,
-        converterFactory: GsonConverterFactory,callAdapter:LiveDataCallAdapterFactory
-    ): Retrofit {
+        converterFactory: GsonConverterFactory,callAdapter:LiveDataCallAdapterFactory): Retrofit {
         return Retrofit.Builder()
             .baseUrl(LegoService.BASE_URL)
             .client(okhttpClient)
