@@ -66,6 +66,7 @@ class LegoThemeFragment : Fragment(), Injectable {
                 }
 
                 Status.SUCCESS -> {
+                    Timber.tag(TAG).d(result.data.toString())
                     binding?.progressBar?.hide()
                     result.data?.let { adapter.submitList(it.results) }
                 }

@@ -25,7 +25,6 @@ class AppModule {
     ) = provideService(okhttpClient, converterFactory,callAdapter, LegoService::class.java)
 
 
-
     @LegoAPI
     @Provides
     fun providePrivateOkHttpClient(

@@ -15,7 +15,7 @@ import timber.log.Timber
 import kotlin.coroutines.coroutineContext
 
 abstract class NetworkResourceBound<ResultType, RequestType>
-constructor(private val contextProviders: ContextProviders) {
+@MainThread constructor(private val contextProviders: ContextProviders) {
 
     private val result = MediatorLiveData<Resource<RequestType>>()
 
