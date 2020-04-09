@@ -25,7 +25,5 @@ abstract class AppDatabase:RoomDatabase() {
                     .also { instance = it }
             }
         }
-
-
     }
 }
