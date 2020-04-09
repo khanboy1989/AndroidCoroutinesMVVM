@@ -13,6 +13,6 @@ import javax.inject.Inject
 class LegoThemeViewModel @Inject constructor(private val repository:LegoThemeRepository):ViewModel() {
 
     //Themes live data observed by LegoThemeFragment
-    val themes:LiveData<Resource<ResultResponse<LegoTheme>>> = repository.getThemes()
+    val themes:LiveData<Resource<List<LegoTheme>>> = repository.getThemes()
 }
 

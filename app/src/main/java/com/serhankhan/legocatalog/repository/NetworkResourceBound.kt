@@ -17,51 +17,87 @@ import kotlin.coroutines.coroutineContext
 abstract class NetworkResourceBound<ResultType, RequestType>
 @MainThread constructor(private val contextProviders: ContextProviders) {
 
-    private val result = MediatorLiveData<Resource<RequestType>>()
-
+    private val result = MediatorLiveData<Resource<ResultType>>()
+    private val supervisorJob = SupervisorJob()
     init {
         result.postValue(Resource.loading(null))
-        fetchNetworkFromNetwork()
+        val dbSource = loadFromDb()
+        result.addSource(dbSource) {data->
+            result.removeSource(dbSource)
+            if(shouldFetch(data)) {
+                fetchFromNetwork(dbSource)
+            }else {
+                result.addSource(dbSource) { newData ->
+                    setValue(Resource.success(newData))
+                }
+            }
+        }
     }
 
-    private fun fetchNetworkFromNetwork() {
-        CoroutineScope(contextProviders.IO).launch {
-            val apiResponse = createCall()
-            CoroutineScope(contextProviders.Main).launch {
-                result.addSource(apiResponse) { response ->
-                    result.removeSource(apiResponse)
-                    when (response) {
-                        is ApiSuccessResponse -> {
-                            setValue(Resource.success(processResponse(response)))
+
+    private fun fetchFromNetwork(dbSource: LiveData<ResultType>) {
+        val apiResponse = createCall()
+        result.addSource(dbSource) { newData ->
+            setValue(Resource.loading(newData))
+        }
+
+        result.addSource(apiResponse) { response ->
+            result.removeSource(apiResponse)
+            result.removeSource(dbSource)
+            when (response) {
+                is ApiSuccessResponse -> {
+                    GlobalScope.launch(contextProviders.IO) {
+                        saveCallResult(processResponse(response))
+                        GlobalScope.launch(contextProviders.Main) {
+                            result.addSource(loadFromDb()) { newData ->
+                                setValue(Resource.success(newData))
+                            }
                         }
-                        is ApiErrorResponse -> {
-                            onFetchFailed()
-                            setValue(Resource.error(response.errorMessage, null))
+                    }
+                }
+                is ApiEmptyResponse -> {
+                    GlobalScope.launch(contextProviders.Main) {
+                        result.addSource(loadFromDb()) { newData ->
+                            setValue(Resource.success(newData))
                         }
-                        is ApiEmptyResponse -> {
-                            setValue(Resource.error("An empty value returned", null))
-                        }
+                    }
+                }
+                is ApiErrorResponse -> {
+                    onFetchFailed()
+                    result.addSource(dbSource) { newData ->
+                        setValue(Resource.error(response.errorMessage, newData))
                     }
                 }
             }
         }
     }
 
-    protected open fun onFetchFailed() {}
+
 
     @MainThread
-    private fun setValue(newValue: Resource<RequestType>) {
+    private fun setValue(newValue: Resource<ResultType>) {
         if (result.value != newValue) {
             result.value = newValue
         }
     }
 
+    protected open fun onFetchFailed() {}
+
+    fun asLiveData() = result as LiveData<Resource<ResultType>>
+
     @WorkerThread
     protected open fun processResponse(response: ApiSuccessResponse<RequestType>) = response.body
 
+    @WorkerThread
+    protected abstract fun saveCallResult(item: RequestType)
+
+    @MainThread
+    protected abstract fun shouldFetch(data: ResultType?): Boolean
+
+    @MainThread
+    protected abstract fun loadFromDb(): LiveData<ResultType>
+
     @MainThread
     protected abstract fun createCall(): LiveData<ApiResponse<RequestType>>
-
-    fun asLiveData() = result as LiveData<Resource<RequestType>>
 
 }

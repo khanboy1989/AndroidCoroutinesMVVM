@@ -5,13 +5,18 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.serhankhan.legocatalog.testing.OpenForTesting
 
 @Dao
+@OpenForTesting
 interface LegoThemeDao {
 
     @Query("SELECT * FROM themes ORDER BY id DESC")
     fun getLegoThemes():LiveData<List<LegoTheme>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(themes:List<LegoTheme>)
+    fun insertAll(themes:List<LegoTheme>)
+
+    @Query("DELETE FROM themes")
+    fun deleteAllThemes()
 }

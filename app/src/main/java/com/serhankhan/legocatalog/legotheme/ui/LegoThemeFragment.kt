@@ -66,15 +66,20 @@ class LegoThemeFragment : Fragment(), Injectable {
                 }
 
                 Status.SUCCESS -> {
-                    Timber.tag(TAG).d(result.data.toString())
                     binding?.progressBar?.hide()
-                    result.data?.let { adapter.submitList(it.results) }
+                    result.data?.let {
+                        Timber.tag(TAG).d(result.data.toString())
+                        adapter.submitList(it)
+                    }
                 }
 
                 Status.ERROR -> {
                     binding?.progressBar?.hide()
                     binding?.root?.let {
-                        Snackbar.make(it, result.message!!, Snackbar.LENGTH_LONG).show()
+                        Snackbar.make(it, result.message!!, 5000).show()
+                    }
+                    result.data?.let {
+                        adapter.submitList(it)
                     }
                 }
             }
