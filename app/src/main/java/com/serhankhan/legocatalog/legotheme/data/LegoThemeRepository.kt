@@ -17,7 +17,7 @@ import javax.inject.Singleton
 @OpenForTesting
 class LegoThemeRepository @Inject constructor(private val contextProviders: ContextProviders,private val appExecutors: AppExecutors, private val service:LegoService,private val legoThemeDao: LegoThemeDao,private val db:AppDatabase) {
 
-    fun getThemes():LiveData<Resource<List<LegoTheme>>> {
+    fun getThemes(page:Int?=null,page_size:Int? = null,order:String?=null):LiveData<Resource<List<LegoTheme>>> {
         return object :NetworkResourceBound<List<LegoTheme>, LegoThemeResponse>(contextProviders){
             override fun saveCallResult(item: LegoThemeResponse) {
                 val themes = item.results
@@ -33,7 +33,7 @@ class LegoThemeRepository @Inject constructor(private val contextProviders: Cont
 
             override fun loadFromDb(): LiveData<List<LegoTheme>>  = legoThemeDao.getLegoThemes()
 
-            override fun createCall(): LiveData<ApiResponse<LegoThemeResponse>> = service.getThemes()
+            override fun createCall(): LiveData<ApiResponse<LegoThemeResponse>> = service.getThemes(page,page_size,order)
 
         }.asLiveData()
     }

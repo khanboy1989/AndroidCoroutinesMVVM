@@ -43,6 +43,8 @@ class LegoThemeFragment : Fragment(), Injectable {
         savedInstanceState: Bundle?
     ): View? {
         viewModel = injectViewModel(viewModelFactory)
+        viewModel.setThemeRequestParams(1)
+
         val binding = FragmentLegoThemeBinding.inflate(inflater, container, false)
         context ?: return binding.root
         initializeLegoThemeAdapter(binding)

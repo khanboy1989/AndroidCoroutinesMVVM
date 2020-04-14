@@ -55,11 +55,11 @@ class LegoServiceTest {
             val request = mockWebServer.takeRequest()
             assertThat(request.path, `is`("/lego/themes/"))
 
-            val theme = response.results[0]
+            val theme = response.results?.get(0)
 
-            assertThat(theme.name,`is`("Technic"))
-            assertThat(theme.id,`is`(1))
-            assertThat(theme.parentId,`is`(nullValue()))
+            assertThat(theme?.name,`is`("Technic"))
+            assertThat(theme?.id,`is`(1))
+            assertThat(theme?.parentId,`is`(nullValue()))
 
         }
     }
