@@ -60,9 +60,23 @@ class LegoThemeRepositoryTest {
         `when`(service.getThemes()).thenReturn(call)
 
         val data = repository.getThemes()
-        //verify(dao).getLegoThemes()
+        verify(dao).getLegoThemes()
         verifyNoMoreInteractions(service)
 
+        val obs = mock<Observer<Resource<List<LegoTheme>>>>()
+        data.observeForever(obs)
+        verifyNoMoreInteractions(service)
+        verify(obs).onChanged(Resource.loading(null))
+
+        val updateDbData = MutableLiveData<List<LegoTheme>>()
+        `when`(dao.getLegoThemes()).thenReturn(updateDbData)
+
+        dbData.postValue(null)
+        verify(service).getThemes()
+        verify(dao).insertAll(themes.results!!)
+
+        updateDbData.postValue(themes.results)
+        verify(obs).onChanged(Resource.success(themes.results))
 
     }
 
